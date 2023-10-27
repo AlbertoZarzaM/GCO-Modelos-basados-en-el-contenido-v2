@@ -77,8 +77,13 @@ export const gestionCalculos = (palabras: string[][]): void => {
   IDF(palabras.length, tablas);
   
   // llamada a función TF-IDF (vectores normalizados)
+  TFIDF(tablas);
+
   // llamada a función Similaridad coseno entre cada par de documentos.
-  console.log("IDF calculado")
+
+
+
+  console.log("TF-IDF calculado")
   console.log(tablas);
 }
 
@@ -219,5 +224,15 @@ export const longitudTF = (tablas: Tabla[]): void => {
 
 export const TFIDF = (tablas: Tabla[]): void => {
   // vectores normalizados
-  // TF*longitud del vector
+  // TF/longitud del vector
+  for (let i = 0; i < tablas.length; i++) {
+    let longitudVectorNormalizado: number = 0;
+    for (let j = 0; j < tablas[i].filas.length; j++) {
+      tablas[i].filas[j][6] = (tablas[i].filas[j][5] as number) / tablas[i].longitud_TF;
+      longitudVectorNormalizado += Math.pow(tablas[i].filas[j][6] as number, 2);
+    }
+    let resultado: number = Math.sqrt(longitudVectorNormalizado);
+    console.log('Longitud vector normalizado: ',resultado);
+
+  }
 }
