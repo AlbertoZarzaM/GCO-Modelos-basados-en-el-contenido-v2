@@ -71,6 +71,7 @@ export const gestionCalculos = (palabras: string[][]): void => {
 
   // llamada a función TF
   TF(tablas);
+  longitudTF(tablas);
 
   // llamada a función IDF
   IDF(palabras.length, tablas);
@@ -206,6 +207,14 @@ export const IDF = (corpus_total: number, tablas: Tabla[]): void => {
 
 export const longitudTF = (tablas: Tabla[]): void => {
   // calculamos la longitud del TF para cada documento
+  // raiz(suma de cada del documento tf^2)
+  for (let i = 0; i < tablas.length; i++) {
+    let suma: number = 0;
+    for (let j = 0; j < tablas[i].filas.length; j++) {
+      suma += Math.pow(tablas[i].filas[j][5] as number, 2);
+    }
+    tablas[i].longitud_TF = Math.sqrt(suma);
+  }
 }
 
 export const TFIDF = (tablas: Tabla[]): void => {
