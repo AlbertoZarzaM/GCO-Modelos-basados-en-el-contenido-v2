@@ -18,6 +18,7 @@ export type Tabla = {
   
   cabecera: string[];
   filas: (string | number)[][];
+  longitud_TF: number;
 }
 
 
@@ -68,17 +69,16 @@ export const gestionCalculos = (palabras: string[][]): void => {
   // crear tabla a partir de la string, una tabla para cada documento.
   let tablas: Tabla[] = crearTablas(palabras, arrayApariciones);
 
-  // para cada elemento de cada tabla --> los bucles los hago dentro, a todas las funciones les paso las tablas.
-    // llamada a función TF
-    TF(tablas);
+  // llamada a función TF
+  TF(tablas);
 
-    // llamada a función IDF
-    IDF(palabras.length, tablas);
-    console.log("IDF calculado")
-    console.log(tablas);
-
-    // llamada a función TF-IDF (vectores normalizados)
-    // llamada a función Similaridad coseno entre cada par de documentos.
+  // llamada a función IDF
+  IDF(palabras.length, tablas);
+  
+  // llamada a función TF-IDF (vectores normalizados)
+  // llamada a función Similaridad coseno entre cada par de documentos.
+  console.log("IDF calculado")
+  console.log(tablas);
 }
 
 /**
@@ -93,7 +93,8 @@ export const crearTablas = (palabras: string[][], arrayApariciones: apariciones[
   for(let i = 0; i < palabras.length; i++) {
     let tabla: Tabla = {
       cabecera: ["Índice", "Palabra", "Nº Apariciones en el documento", "DF", "IDF", "TF", "TF-IDF", "Similaridad Coseno"],
-      filas: []
+      filas: [],
+      longitud_TF: 0
     }
     for(let j = 0; j < palabras[i].length; j++) {
       let df: number = obtenerDF(palabras[i][j], arrayApariciones);
@@ -199,4 +200,15 @@ export const IDF = (corpus_total: number, tablas: Tabla[]): void => {
       tablas[i].filas[j][4] = Math.log10(corpus_total / (tablas[i].filas[j][3] as number));
     }
   }
+}
+//! ¿Calculo longitud del vector?
+
+
+export const longitudTF = (tablas: Tabla[]): void => {
+  // calculamos la longitud del TF para cada documento
+}
+
+export const TFIDF = (tablas: Tabla[]): void => {
+  // vectores normalizados
+  // TF*longitud del vector
 }
