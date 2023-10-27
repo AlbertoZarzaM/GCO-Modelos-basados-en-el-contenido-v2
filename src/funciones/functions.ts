@@ -19,7 +19,6 @@ export type apariciones = {
 
 
 
-
 export const lematizar = (elementosLinea: string[]): string[] => {
   const jsonLematizacion = JSON.parse(fileContentLematizacion);
   let arrayLematizado: string[] = [];
@@ -51,13 +50,12 @@ export const lematizar = (elementosLinea: string[]): string[] => {
 // Recibimos un array de arrays, donde cada array coresponde a las palabras de un documento.
 export const gestionCalculos = (palabras: string[][]): void => {
   // llamada a función DF
-  console.log("LLamada a DF");
-
+  console.log("LLamada a DF")
+  // Array de apariciones de cada término en todos los documentos.
   let arrayApariciones: apariciones[] = DF(palabras);
 
-
   // crear tabla a partir de la string, una tabla para cada documento.
-  crearTablas(palabras, arrayApariciones);
+  let tablas: Tabla[] = crearTablas(palabras, arrayApariciones);
 
   // para cada elemento de cada tabla:
     // llamada a función TF
@@ -72,19 +70,29 @@ export const crearTablas = (palabras: string[][], arrayApariciones: apariciones[
 
   for(let i = 0; i < palabras.length; i++) {
     let tabla: Tabla = {
-      cabecera: ["Índice", "Palabra", "DF", "IDF", "TF", "TF-IDF", "Similaridad Coseno"],
+      cabecera: ["Índice", "Palabra", "Nº Apariciones en el documento", "DF", "IDF", "TF", "TF-IDF", "Similaridad Coseno"],
       filas: []
     }
     for(let j = 0; j < palabras[i].length; j++) {
       let df: number = obtenerDF(palabras[i][j], arrayApariciones);
 
-      tabla.filas.push([i, palabras[i][j], df, "", "", "", ""]);
+      tabla.filas.push([i, palabras[i][j], calcularApariciones(palabras[i], palabras[i][j]), df, "", "", "", ""]);
     }
     arrayTablas.push(tabla);  
   }
   console.log("TABLAS");
   console.log(arrayTablas);
   return arrayTablas;
+}
+
+export const calcularApariciones = (documento: string[], termino: string): number => {
+  let numeroAparicionesDoc: number = 0;
+  for(let i = 0; i < documento.length; i++) {
+    if (documento[i] === termino) {
+      numeroAparicionesDoc++;
+    }
+  }
+  return numeroAparicionesDoc;
 }
 
 
@@ -130,4 +138,11 @@ export const DF = (palabras: string[][]): apariciones[] => {
   // imprimir todos los términos y su número de apariciones
   console.log(arrayApariciones);
   return arrayApariciones;
+}
+
+
+
+
+export const TF = (tablas: Tabla): void => {
+
 }
