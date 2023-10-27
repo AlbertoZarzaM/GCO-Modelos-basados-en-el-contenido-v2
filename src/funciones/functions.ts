@@ -5,8 +5,8 @@ import { fileContentLematizacion } from "./start"
 // Tipo de datos tabla
 export type Tabla = {
   // cabecera contiene los elementos: índice, palabra, DF, IDF, TF, TF-IDF, similaridad coseno.
-  //const cabecera: string[] = ["Índice", "Palabra", "DF", "IDF", "TF", "TF-IDF", "Similaridad Coseno"];
- // const filas: string[][] = [];
+  cabecera: string[];
+  filas: (string | number)[][];
 }
 
 
@@ -50,9 +50,14 @@ export const lematizar = (elementosLinea: string[]): string[] => {
 
 // Recibimos un array de arrays, donde cada array coresponde a las palabras de un documento.
 export const gestionCalculos = (palabras: string[][]): void => {
-  // crear tabla a partir de la string, una tabla para cada documento.
-  crearTablas(palabras);
   // llamada a función DF
+  console.log("LLamada a DF");
+
+  let arrayApariciones: apariciones[] = DF(palabras);
+
+
+  // crear tabla a partir de la string, una tabla para cada documento.
+  crearTablas(palabras, arrayApariciones);
 
   // para cada elemento de cada tabla:
     // llamada a función TF
@@ -62,17 +67,53 @@ export const gestionCalculos = (palabras: string[][]): void => {
 }
 
 
-export const crearTablas = (palabras: string[][]): void => {
+export const crearTablas = (palabras: string[][], arrayApariciones: apariciones[]): Tabla[] => {
+  let arrayTablas: Tabla[] = [];
 
+  for(let i = 0; i < palabras.length; i++) {
+    let tabla: Tabla = {
+      cabecera: ["Índice", "Palabra", "DF", "IDF", "TF", "TF-IDF", "Similaridad Coseno"],
+      filas: []
+    }
+    for(let j = 0; j < palabras[i].length; j++) {
+      let df: number = obtenerDF(palabras[i][j], arrayApariciones);
+
+      tabla.filas.push([i, palabras[i][j], df, "", "", "", ""]);
+    }
+    arrayTablas.push(tabla);  
+  }
+  console.log("TABLAS");
+  console.log(arrayTablas);
+  return arrayTablas;
 }
 
-export const DF = (palabras: string[][]): void => {
-  // para todos los términos, buscar el número de apariciones en todos los documentos.
-  // se le pasa el array de arrays de palabras
-  // hacemos búsqueda y vamos almacenando
+
+/**
+ * Función que devuelve el DF de una palabra.
+ * @param palabra palabra a buscar
+ * @param arrayApariciones array con todos los términos y su número de apariciones
+ * @returns número de apariciones de la palabra en todos los documentos
+ */
+const obtenerDF = (palabra: string, arrayApariciones: apariciones[]): number => {
+  let df: number = 0;
+  for (let i = 0; i < arrayApariciones.length; i++) {
+    if (arrayApariciones[i].termino === palabra) {
+      df = arrayApariciones[i].numeroApariciones;
+    }
+  }
+  return df;
+}
+
+/**
+ * Función que calcula todos los DF
+ * @param palabras Todas las palabras de todos los documentos
+ * @returns array con todos los términos y su número de apariciones
+ */
+export const DF = (palabras: string[][]): apariciones[] => {
 
   // array de apariciones
   let arrayApariciones: apariciones[] = [];
+
   for (let i = 0; i < palabras.length; i++) {
     for (let j = 0; j < palabras[i].length; j++) {
       if (arrayApariciones.find(elemento => elemento.termino === palabras[i][j])) {
@@ -86,8 +127,7 @@ export const DF = (palabras: string[][]): void => {
     }
   }
 
-
   // imprimir todos los términos y su número de apariciones
   console.log(arrayApariciones);
-
+  return arrayApariciones;
 }

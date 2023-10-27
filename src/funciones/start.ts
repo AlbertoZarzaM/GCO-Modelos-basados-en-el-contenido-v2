@@ -1,4 +1,4 @@
-import {lematizar, DF} from "./functions"
+import {lematizar, DF, gestionCalculos} from "./functions"
 
 
 let numeroArchivo: number = 0;
@@ -68,9 +68,10 @@ export const procesar = (): void  => {
   }
 
   console.log(arrayPalabras);
+  console.log("CALCULOS");  
 
-  console.log("LLamada a DF");
-  DF(arrayPalabras);
+  gestionCalculos(arrayPalabras);
+
 
 
 };
