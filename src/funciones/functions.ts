@@ -71,10 +71,12 @@ export const gestionCalculos = (palabras: string[][]): void => {
   // para cada elemento de cada tabla --> los bucles los hago dentro, a todas las funciones les paso las tablas.
     // llamada a función TF
     TF(tablas);
-    console.log("TF calculado")
-    console.log(tablas);
 
     // llamada a función IDF
+    IDF(palabras.length, tablas);
+    console.log("IDF calculado")
+    console.log(tablas);
+
     // llamada a función TF-IDF (vectores normalizados)
     // llamada a función Similaridad coseno entre cada par de documentos.
 }
