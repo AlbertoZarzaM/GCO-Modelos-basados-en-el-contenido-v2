@@ -1,4 +1,5 @@
-import {lematizar} from "./functions"
+import {lematizar, DF} from "./functions"
+
 
 let numeroArchivo: number = 0;
 let fileContent1: string = "";
@@ -48,7 +49,10 @@ export const procesar = (): void  => {
     arrayPalabras[i] = arrayFilas[i].split(" ");
   }
   
-  
+   //lematizar cada file
+  for(let i = 0; i < arrayPalabras.length; i++) {
+    arrayPalabras[i] = lematizar(arrayPalabras[i]);
+  }
 
   // eliminar stop words de cada linea
   let stopWords: string[] = fileContent2.split("\n");
@@ -63,14 +67,10 @@ export const procesar = (): void  => {
     }
   }
 
-  //lematizar cada file
-  for(let i = 0; i < arrayPalabras.length; i++) {
-    arrayPalabras[i] = lematizar(arrayPalabras[i]);
-  }
-  
   console.log(arrayPalabras);
 
-
+  console.log("LLamada a DF");
+  DF(arrayPalabras);
 
 
 };

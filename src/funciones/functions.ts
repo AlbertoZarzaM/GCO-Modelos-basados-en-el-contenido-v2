@@ -9,7 +9,12 @@ export type Tabla = {
  // const filas: string[][] = [];
 }
 
+
+// Tipo de datos para contar las apariciones de cada término en todos los documentos. 
+// Necesario para el cálculo de DF.
 export type apariciones = {
+  termino: string,
+  numeroApariciones: number
 }
 
 
@@ -61,8 +66,28 @@ export const crearTablas = (palabras: string[][]): void => {
 
 }
 
-export const DF = (): void => {
+export const DF = (palabras: string[][]): void => {
   // para todos los términos, buscar el número de apariciones en todos los documentos.
   // se le pasa el array de arrays de palabras
   // hacemos búsqueda y vamos almacenando
+
+  // array de apariciones
+  let arrayApariciones: apariciones[] = [];
+  for (let i = 0; i < palabras.length; i++) {
+    for (let j = 0; j < palabras[i].length; j++) {
+      if (arrayApariciones.find(elemento => elemento.termino === palabras[i][j])) {
+        // si existe, sumamos 1 a apariciones
+        arrayApariciones.find(elemento => elemento.termino === palabras[i][j])!.numeroApariciones++;
+
+      } else {
+        // si no existe, lo añadimos
+        arrayApariciones.push({termino: palabras[i][j], numeroApariciones: 1});
+      }
+    }
+  }
+
+
+  // imprimir todos los términos y su número de apariciones
+  console.log(arrayApariciones);
+
 }

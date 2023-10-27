@@ -25,20 +25,17 @@
 
     <div class="col-lg-6 col-md-6 col-sm-12" style="text-align: center;">
 
-      AQUI DIGO DE MOSTRAR LOS RESULTADOS ;)
+      AQUI DIGO DE MOSTRAR LOS RESULTADOS ;
 
     </div>
     </div>
   </div>
 
-  <br>
   <br>
   <div class="container" >
     <button type="button" class="btn btn-warning" @click= "procesar()">Procesar</button>
     <div id="result"></div>
   </div>
-
-
 </template>
 
 <script setup lang="ts">
