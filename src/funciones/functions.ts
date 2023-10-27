@@ -1,3 +1,4 @@
+import { FormRadioPlugin } from "bootstrap-vue";
 import { fileContentLematizacion } from "./start"
 
 
@@ -19,6 +20,7 @@ export type Tabla = {
   cabecera: string[];
   filas: (string | number)[][];
   longitud_TF: number;
+  similaridadCoseno?: similaridad [];
 }
 
 
@@ -29,7 +31,11 @@ export type apariciones = {
   numeroApariciones: number
 }
 
-
+// Tipo de datos para la similaridad coseno
+export type similaridadType = {
+  similaridad: number
+  otroDocumento: number
+}
 
 export const lematizar = (elementosLinea: string[]): string[] => {
   const jsonLematizacion = JSON.parse(fileContentLematizacion);
@@ -80,7 +86,7 @@ export const gestionCalculos = (palabras: string[][]): void => {
   TFIDF(tablas);
 
   // llamada a función Similaridad coseno entre cada par de documentos.
-
+  similaridadCoseno(tablas);
 
 
   console.log("TF-IDF calculado")
@@ -199,8 +205,7 @@ export const TF = (tablas: Tabla[]): void => {
  * @param tablas todos los documentos con sus términos.
  */
 export const IDF = (corpus_total: number, tablas: Tabla[]): void => {
-// log10(corpus_total / DF) 
-
+  // log10(corpus_total / DF) 
   for (let i = 0; i < tablas.length; i++) {
     for (let j = 0; j < tablas[i].filas.length; j++) {
       tablas[i].filas[j][4] = Math.log10(corpus_total / (tablas[i].filas[j][3] as number));
@@ -210,6 +215,10 @@ export const IDF = (corpus_total: number, tablas: Tabla[]): void => {
 //! ¿Calculo longitud del vector?
 
 
+/**
+ * Función que calcula la longitud del vector normalizado de cada documento.
+ * @param tablas todos los documentos con sus términos.
+ */
 export const longitudTF = (tablas: Tabla[]): void => {
   // calculamos la longitud del TF para cada documento
   // raiz(suma de cada del documento tf^2)
@@ -222,6 +231,10 @@ export const longitudTF = (tablas: Tabla[]): void => {
   }
 }
 
+/**
+ * Función que calcula el TF-IDF de cada término en cada documento.
+ * @param tablas todos los documentos con sus términos.
+ */
 export const TFIDF = (tablas: Tabla[]): void => {
   // vectores normalizados
   // TF/longitud del vector
@@ -232,7 +245,24 @@ export const TFIDF = (tablas: Tabla[]): void => {
       longitudVectorNormalizado += Math.pow(tablas[i].filas[j][6] as number, 2);
     }
     let resultado: number = Math.sqrt(longitudVectorNormalizado);
-    console.log('Longitud vector normalizado: ',resultado);
-
+    // console.log('Longitud vector normalizado: ',resultado);
   }
+}
+
+export const similaridadCoseno = (tablas: Tabla[]): void => {
+  for(let i = 0; i < tablas.length; ++i) {
+    for(let j = i; j < tablas.length; ++j) { // empezamos en i ya que actualizamos ambas tablas de una vez.
+      if(i !== j) {
+        // cos(doc i , doc j) = suma(multipicar TFIDF * TFIDF)
+        for(let k = 0; k < tablas[i].filas.length; ++k) {
+          if (tablas[j].filas.includes(tablas[i].filas[k])) {
+            
+          } else {
+
+          }
+        }
+      }
+    }
+  }
+
 }
