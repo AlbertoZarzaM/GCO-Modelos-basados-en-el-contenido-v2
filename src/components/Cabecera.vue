@@ -18,41 +18,41 @@
 </template>
 
 <style scoped>
-h1 {
-  font-weight: 500;
-  font-size: 2.6rem;
-  position: relative;
-  top: -10px;
-  color: blueviolet;
-  text-align: center;
+  h1 {
+    font-weight: 500;
+    font-size: 2.6rem;
+    position: relative;
+    top: -10px;
+    color: blueviolet;
+    text-align: center;
 
-  margin-top: 4em;
-}
+    margin-top: 4em;
+  }
 
-div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 2em;
-  margin-right: 1em ;
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2em;
+    margin-right: 1em ;
 
-}
-/* 
+  }
+  /* 
 
-button {
-  background-color: blueviolet;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 1.2rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-  padding: 2em ;
-}
+  button {
+    background-color: blueviolet;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    padding: 2em ;
+  }
 
-button:hover {
-  background-color: #8a2be2;
-  transform: scale(1.1);
-} */
+  button:hover {
+    background-color: #8a2be2;
+    transform: scale(1.1);
+  } */
 </style>

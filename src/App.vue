@@ -2,11 +2,15 @@
 
 <title> Sistemas de recomendación. Métodos de filtrado colaborativo </title>
 
-  <Cabecera />
-  
-  <Home />
+ <Cabecera />
+<div class="div1">
+ <Home />
+</div>
 
+
+<div class="div2">
  <PiePag />
+</div>
 
 </template>
 
@@ -22,12 +26,20 @@ import Home from './components/Home.vue';
 
 </script>
 
-  
-
-
-
 
 <style>
+
+.div1 {
+  position: relative;
+  margin: 0 auto;
+}
+
+.div2 {
+  padding-top: 1em;
+  position: relative;
+  margin: 0 auto;
+}
+
 
 input{
   padding: 2em;
