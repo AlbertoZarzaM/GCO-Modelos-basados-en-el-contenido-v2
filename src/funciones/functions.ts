@@ -57,14 +57,23 @@ export const gestionCalculos = (palabras: string[][]): void => {
   // crear tabla a partir de la string, una tabla para cada documento.
   let tablas: Tabla[] = crearTablas(palabras, arrayApariciones);
 
-  // para cada elemento de cada tabla:
+  // para cada elemento de cada tabla --> los bucles los hago dentro, a todas las funciones les paso las tablas.
     // llamada a función TF
+    TF(tablas);
+    console.log("TF calculado")
+    console.log(tablas);
+
     // llamada a función IDF
     // llamada a función TF-IDF (vectores normalizados)
     // llamada a función Similaridad coseno entre cada par de documentos.
 }
 
-
+/**
+ * Función que crea las tablas
+ * @param palabras Todas las palabras de todos los documentos
+ * @param arrayApariciones Apariciones totales de cada término en todos los documentos
+ * @returns array con las tablas creadas
+ */
 export const crearTablas = (palabras: string[][], arrayApariciones: apariciones[]): Tabla[] => {
   let arrayTablas: Tabla[] = [];
 
@@ -80,11 +89,17 @@ export const crearTablas = (palabras: string[][], arrayApariciones: apariciones[
     }
     arrayTablas.push(tabla);  
   }
-  console.log("TABLAS");
-  console.log(arrayTablas);
+  // console.log("TABLAS");
+  // console.log(arrayTablas);
   return arrayTablas;
 }
 
+/**
+ * Función que calcula el número de apariciones de un término en un documento.
+ * @param documento array de palabras de un documento
+ * @param termino término a buscar
+ * @returns número de apariciones del término en el documento
+ */
 export const calcularApariciones = (documento: string[], termino: string): number => {
   let numeroAparicionesDoc: number = 0;
   for(let i = 0; i < documento.length; i++) {
@@ -142,7 +157,17 @@ export const DF = (palabras: string[][]): apariciones[] => {
 
 
 
+/**
+ * Función que calcula el TF de cada término en cada documento.
+ * @param tablas Tablas con los datos de cada documento
+ */
+export const TF = (tablas: Tabla[]): void => {
+  // TF = 1 + log10(nº apariciones en el documento)
 
-export const TF = (tablas: Tabla): void => {
-
+  // cada fila de tablas tiene un documento.
+  for (let i = 0; i < tablas.length; i++) {
+    for (let j = 0; j < tablas[i].filas.length; j++) {
+      tablas[i].filas[j][5] = 1 + Math.log10(tablas[i].filas[j][2] as number);
+    }
+  }
 }
