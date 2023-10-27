@@ -4,7 +4,18 @@ import { fileContentLematizacion } from "./start"
 
 // Tipo de datos tabla
 export type Tabla = {
-  // cabecera contiene los elementos: índice, palabra, DF, IDF, TF, TF-IDF, similaridad coseno.
+  /*
+  cabecera contiene los elementos: 
+  [0] índice
+  [1] palabra
+  [2] nº apariciones en el documento
+  [3] DF
+  [4] IDF
+  [5] TF
+  [6] TF-IDF
+  [7] Similaridad Coseno
+  */ 
+  
   cabecera: string[];
   filas: (string | number)[][];
 }
@@ -168,6 +179,22 @@ export const TF = (tablas: Tabla[]): void => {
   for (let i = 0; i < tablas.length; i++) {
     for (let j = 0; j < tablas[i].filas.length; j++) {
       tablas[i].filas[j][5] = 1 + Math.log10(tablas[i].filas[j][2] as number);
+    }
+  }
+}
+
+
+/**
+ * Función que calcula el IDF de cada término en cada documento.
+ * @param corpus_total corpus de documentos.
+ * @param tablas todos los documentos con sus términos.
+ */
+export const IDF = (corpus_total: number, tablas: Tabla[]): void => {
+// log10(corpus_total / DF) 
+
+  for (let i = 0; i < tablas.length; i++) {
+    for (let j = 0; j < tablas[i].filas.length; j++) {
+      tablas[i].filas[j][4] = Math.log10(corpus_total / (tablas[i].filas[j][3] as number));
     }
   }
 }
