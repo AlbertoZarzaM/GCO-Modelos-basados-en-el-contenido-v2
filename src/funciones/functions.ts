@@ -243,6 +243,10 @@ export const TFIDF = (tablas: Tabla[]): void => {
   }
 }
 
+/**
+ * Función que calcula la similaridad coseno entre cada par de documentos.
+ * @param tablas todos los documentos con sus términos.
+ */
 export const similaridadCoseno = (tablas: Tabla[]): void => {
   for(let i = 0; i < tablas.length; ++i) {
     for(let j = i; j < tablas.length; ++j) {  // empezamos en i ya que actualizamos ambas tablas de una vez.
@@ -269,6 +273,10 @@ export const similaridadCoseno = (tablas: Tabla[]): void => {
 }
 
 
+/**
+ * Función que que transforma una matriz en una tabla HTML.
+ * @param matriz matriz de datos
+ */
 export function matrizATabla(matriz: (string|number)[][]): string {
   let tablaHTML = "<table class=\"custom-table\">";
   for (let i = 0; i < matriz.length; i++) {
