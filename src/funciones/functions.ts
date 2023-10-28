@@ -106,9 +106,11 @@ export const crearTablas = (palabras: string[][], arrayApariciones: apariciones[
       similaridadCoseno: []
     }
     for(let j = 0; j < palabras[i].length; j++) {
-      let df: number = obtenerDF(palabras[i][j], arrayApariciones);
-
-      tabla.filas.push([j, palabras[i][j], calcularApariciones(palabras[i], palabras[i][j]), df, "", "", ""]);
+      // si el término no está ya en la tabla, lo añadimos
+      if (!tabla.filas.find(elemento => elemento[1] === palabras[i][j])) {
+        let df: number = obtenerDF(palabras[i][j], arrayApariciones);
+        tabla.filas.push([j, palabras[i][j], calcularApariciones(palabras[i], palabras[i][j]), df, "", "", ""]);
+      }
     }
     arrayTablas.push(tabla);  
   }
