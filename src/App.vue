@@ -1,6 +1,6 @@
 <template>
 
-<title> Sistemas de recomendación. Métodos de filtrado colaborativo </title>
+<title> Sistemas de recomendación. Modelos basados en el contenido </title>
 
  <Cabecera />
 <body>
