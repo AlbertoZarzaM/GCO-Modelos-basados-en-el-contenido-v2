@@ -7,35 +7,32 @@
   <br>
 
 
-  <div class="container">
-    <div class="row">
-
-      <div class="col-lg-6 col-md-6 col-sm-12">
+  <div class="container text-center">
+    <div class="row align-items-center">
+      <div class="col-sm">
         <h2>Documento a analizar</h2>
         <input type="file" id="fileInput1" @change="cargarArchivo(1)"/>
-
-        <h2>Fichero Stopwords</h2>
-        <input type="file" id="fileInput2" @change="cargarArchivo(2)"/>
-        
-        <h2>Fichero lematización</h2>
-        <input type="file" id="fileInput3" @change="cargarArchivo(3)"/>
       </div>
-
-
-
-    <div class="col-lg-6 col-md-6 col-sm-12" style="text-align: center;">
-
-      AQUI DIGO DE MOSTRAR LOS RESULTADOS ;
-
-    </div>
-    </div>
+      <div class="col-sm">
+        <h2>Fichero Stopwords</h2>
+          <input type="file" id="fileInput2" @change="cargarArchivo(2)"/>
+      </div>
+      <div class="col-sm">
+          <h2>Fichero lematización</h2>
+          <input type="file" id="fileInput3" @change="cargarArchivo(3)"/>
+      </div>
   </div>
-
+  </div>
   <br>
-  <div class="container" >
+  <div class="container text-center" >
     <button type="button" class="btn btn-warning" @click= "procesar()">Procesar</button>
     <div id="result"></div>
   </div>
+
+<div id="miDiv">
+  
+  
+</div>
 </template>
 
 <script setup lang="ts">
@@ -48,6 +45,27 @@
   
 <style>
 
+.texto-custom{
+  font-weight: bold;
+  font-size: 1em;
+  margin-left: 5em;
+  padding: 0.2px;
+}
+.custom-table {
+    width: 90%;
+    table-layout: fixed;
+    margin-left: 5em;
+    margin-right: 5em;
+    margin-top: 2em;
+    text-align: center;
+  }
+  .custom-table th,
+  .custom-table td {
+    border: 1px solid #000;
+    padding: 5px;
+  }
+
+
 template {
   position: relative;
 }
@@ -55,21 +73,7 @@ template {
   input{
     padding: 2em;
   }
-  .custom-table {
-    border: 0.05em solid black;
-    border-collapse: collapse;
-  }
 
-  .custom-table th,
-  .custom-table td {
-    border: 0.05em solid black;
-    padding: 0.5em;
-  }
-
-  .focus-table th:focus,
-  .focus-table td:focus {
-    outline: 0.25em solid #14213D;
-  }
 
 
   .custom-link {

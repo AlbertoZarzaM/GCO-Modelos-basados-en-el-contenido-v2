@@ -24,23 +24,22 @@ import Home from './components/Home.vue';
 
 
 
+
 </script>
 
 
 <style>
 
-input{
-  padding: 2em;
-}
-.custom-table {
-  border: 0.05em solid black;
-  border-collapse: collapse;
+body {
+  margin: 0;
+    padding: 0;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
 }
 
-.custom-table th,
-.custom-table td {
-  border: 0.05em solid black;
-  padding: 0.5em;
+input{
+  padding: 2em;
 }
 
 .focus-table th:focus,

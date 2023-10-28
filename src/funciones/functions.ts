@@ -1,4 +1,3 @@
-import { FormRadioPlugin } from "bootstrap-vue";
 import { fileContentLematizacion } from "./start"
 
 
@@ -20,7 +19,7 @@ export type Tabla = {
   cabecera: string[];
   filas: (string | number)[][];
   longitud_TF: number;
-  similaridadCoseno?: similaridad [];
+  similaridadCoseno: similaridadType [];
 }
 
 
@@ -66,9 +65,7 @@ export const lematizar = (elementosLinea: string[]): string[] => {
 
 
 // Recibimos un array de arrays, donde cada array coresponde a las palabras de un documento.
-export const gestionCalculos = (palabras: string[][]): void => {
-  // llamada a función DF
-  console.log("LLamada a DF")
+export const gestionCalculos = (palabras: string[][]): Tabla[] => {
   // Array de apariciones de cada término en todos los documentos.
   let arrayApariciones: apariciones[] = DF(palabras);
 
@@ -88,9 +85,8 @@ export const gestionCalculos = (palabras: string[][]): void => {
   // llamada a función Similaridad coseno entre cada par de documentos.
   similaridadCoseno(tablas);
 
+  return tablas;
 
-  console.log("TF-IDF calculado")
-  console.log(tablas);
 }
 
 /**
@@ -104,19 +100,18 @@ export const crearTablas = (palabras: string[][], arrayApariciones: apariciones[
 
   for(let i = 0; i < palabras.length; i++) {
     let tabla: Tabla = {
-      cabecera: ["Índice", "Palabra", "Nº Apariciones en el documento", "DF", "IDF", "TF", "TF-IDF", "Similaridad Coseno"],
+      cabecera: ["Índice", "Palabra", "Nº Apariciones en el documento", "DF", "IDF", "TF", "TF-IDF"],
       filas: [],
-      longitud_TF: 0
+      longitud_TF: 0,
+      similaridadCoseno: []
     }
     for(let j = 0; j < palabras[i].length; j++) {
       let df: number = obtenerDF(palabras[i][j], arrayApariciones);
 
-      tabla.filas.push([i, palabras[i][j], calcularApariciones(palabras[i], palabras[i][j]), df, "", "", "", ""]);
+      tabla.filas.push([j, palabras[i][j], calcularApariciones(palabras[i], palabras[i][j]), df, "", "", ""]);
     }
     arrayTablas.push(tabla);  
   }
-  // console.log("TABLAS");
-  // console.log(arrayTablas);
   return arrayTablas;
 }
 
@@ -175,9 +170,6 @@ export const DF = (palabras: string[][]): apariciones[] => {
       }
     }
   }
-
-  // imprimir todos los términos y su número de apariciones
-  console.log(arrayApariciones);
   return arrayApariciones;
 }
 
@@ -251,18 +243,39 @@ export const TFIDF = (tablas: Tabla[]): void => {
 
 export const similaridadCoseno = (tablas: Tabla[]): void => {
   for(let i = 0; i < tablas.length; ++i) {
-    for(let j = i; j < tablas.length; ++j) { // empezamos en i ya que actualizamos ambas tablas de una vez.
-      if(i !== j) {
-        // cos(doc i , doc j) = suma(multipicar TFIDF * TFIDF)
-        for(let k = 0; k < tablas[i].filas.length; ++k) {
-          if (tablas[j].filas.includes(tablas[i].filas[k])) {
-            
-          } else {
+    for(let j = i; j < tablas.length; ++j) {  // empezamos en i ya que actualizamos ambas tablas de una vez.
+      if(i !== j) {                           // Comparación de documentos distintos
+        let sumaSimilaridad: number = 0;
 
+        // Recorremos ambos documentos y comparamos los términos que tengan en común.
+        // el orden de los términos no es el mismo en ambos documentos, por lo que no podemos compararlos directamente.
+        for(let k = 0; k < tablas[i].filas.length; ++k) {
+          for(let l = 0; l < tablas[j].filas.length; ++l) {
+            if(tablas[i].filas[k][1] === tablas[j].filas[l][1]) {
+              sumaSimilaridad += (tablas[i].filas[k][6] as number) * (tablas[j].filas[l][6] as number);
+            }
           }
         }
+
+        console.log("Suma similaridad entre doc ", i , " y doc ", j, ": ", sumaSimilaridad);
+
+        tablas[i].similaridadCoseno?.push({similaridad: sumaSimilaridad, otroDocumento: j});
+        tablas[j].similaridadCoseno?.push({similaridad: sumaSimilaridad, otroDocumento: i});
       }
     }
   }
+}
 
+
+export function matrizATabla(matriz: (string|number)[][]): string {
+  let tablaHTML = "<table class=\"custom-table\">";
+  for (let i = 0; i < matriz.length; i++) {
+    tablaHTML += "<tr>";
+    for (let j = 0; j < matriz[i].length; j++) {
+      tablaHTML += "<td >" + matriz[i][j] + "</td>";
+    }
+    tablaHTML += "</tr>";
+  }
+  tablaHTML += "</table>";
+  return tablaHTML;
 }
