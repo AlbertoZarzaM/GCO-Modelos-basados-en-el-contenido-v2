@@ -9,7 +9,7 @@
       <div class="collapse navbar-collapse justify-content-center" id="navbarTogglerDemo02">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link-custom2" aria-current="page" href="./index.html">Sistemas de recomendación. Métodos de filtrado colaborativo </a> 
+            <a class="nav-link-custom2" aria-current="page" href="./index.html">Sistemas de recomendación. Modelos basados en el contenido </a> 
           </li>
         </ul>
       </div>
