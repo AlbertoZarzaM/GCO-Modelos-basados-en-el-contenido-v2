@@ -59,51 +59,48 @@ Esto nos abrirá una ventana en nuestro navegador por defecto con la aplicación
 - ```Typescript
     export const gestionCalculos = (palabras: string[][]): Tabla[] => {}
     ``` 
-
-- ```Typescript
-    export const gestionCalculos = (palabras: string[][]): Tabla[] => {}
-    ``` 
     Función que se encarga de gestionar todos los cálculos y de invocar al resto de funciones.
 
 - ```Typescript
     export const crearTablas = (palabras: string[][], arrayApariciones: apariciones[]): Tabla[] => {}
     ``` 
-
+    Función que a partir de todas las palabras y el array de aparición de términos, crea datos del tipo "Tabla", con su cabecera y una matriz donde cada fila se corresponde a un término y sus correspondientes valores.
 - ```Typescript
     export const calcularApariciones = (documento: string[], termino: string): number => {}
     ``` 
-
+    Función que se encarga de calcular el número de apariciones de un término en un documento.
 - ```Typescript
     const obtenerDF = (palabra: string, arrayApariciones: apariciones[]): number => {}
     ``` 
-
+    Función que a partir de una palabra y el array de apariciones, obtiene el DF de un término.
 - ```Typescript
     export const DF = (palabras: string[][]): apariciones[] => {}
     ``` 
+    Función que a partir de todas las palabras, calcula el DF de cada término.
 - ```Typescript
     export const TF = (tablas: Tabla[]): void => {}
     ``` 
-
+    Función que calcula el TF de cada término de todos los documentos.
 - ```Typescript
     export const IDF = (corpus_total: number, tablas: Tabla[]): void => {}
     ``` 
-
+    Función que calcula el IDF de cada término de todos los documentos.
 - ```Typescript
     export const longitudTF = (tablas: Tabla[]): void => {}
     ``` 
-
+    Función que calcula la longitud del vector normalizado de cada documento.
 - ```Typescript
     export const TFIDF = (tablas: Tabla[]): void => {}
     ``` 
-
+    Función que calcula el TF-IDF de cada término en cada documento.
 - ```Typescript
     export const similaridadCoseno = (tablas: Tabla[]): void => {}
     ``` 
-
+    Función que calcula la similaridad coseno entre cada par de documentos.
 - ```Typescript
     export function matrizATabla(matriz: (string|number)[][]): string {}
     ``` 
-
+    Función que transforma una matriz en una tabla HTML.
 
 
 

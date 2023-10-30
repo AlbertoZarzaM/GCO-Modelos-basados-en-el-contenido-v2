@@ -52,10 +52,6 @@ export const lematizar = (elementosLinea: string[]): string[] => {
 
 
 
-
-
-
-
 // Una vez tenemos la tabla
 // * 1. Calculamos DF
 // * 2. Calculamos TF
@@ -277,7 +273,7 @@ export const similaridadCoseno = (tablas: Tabla[]): void => {
 
 
 /**
- * Función que que transforma una matriz en una tabla HTML.
+ * Función que transforma una matriz en una tabla HTML.
  * @param matriz matriz de datos
  */
 export function matrizATabla(matriz: (string|number)[][]): string {
