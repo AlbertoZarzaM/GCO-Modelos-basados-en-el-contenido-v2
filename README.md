@@ -46,6 +46,71 @@ Esto nos abrirá una ventana en nuestro navegador por defecto con la aplicación
 
 ### Descripción del código
 
+*start.ts*
+  - **cargarArchivo**:
+  - **procesar**:
 
+*functions.ts*
+
+- ```Typescript
+    export const lematizar = (elementosLinea: string[]): string[] => {}
+    ``` 
+
+- ```Typescript
+    export const gestionCalculos = (palabras: string[][]): Tabla[] => {}
+    ``` 
+
+- ```Typescript
+    export const gestionCalculos = (palabras: string[][]): Tabla[] => {}
+    ``` 
+    Función que se encarga de gestionar todos los cálculos y de invocar al resto de funciones.
+
+- ```Typescript
+    export const crearTablas = (palabras: string[][], arrayApariciones: apariciones[]): Tabla[] => {}
+    ``` 
+
+- ```Typescript
+    export const calcularApariciones = (documento: string[], termino: string): number => {}
+    ``` 
+
+- ```Typescript
+    const obtenerDF = (palabra: string, arrayApariciones: apariciones[]): number => {}
+    ``` 
+
+- ```Typescript
+    export const DF = (palabras: string[][]): apariciones[] => {}
+    ``` 
+- ```Typescript
+    export const TF = (tablas: Tabla[]): void => {}
+    ``` 
+
+- ```Typescript
+    export const IDF = (corpus_total: number, tablas: Tabla[]): void => {}
+    ``` 
+
+- ```Typescript
+    export const longitudTF = (tablas: Tabla[]): void => {}
+    ``` 
+
+- ```Typescript
+    export const TFIDF = (tablas: Tabla[]): void => {}
+    ``` 
+
+- ```Typescript
+    export const similaridadCoseno = (tablas: Tabla[]): void => {}
+    ``` 
+
+- ```Typescript
+    export function matrizATabla(matriz: (string|number)[][]): string {}
+    ``` 
+
+
+
+
+
+
+
+Explicar Main
+Explicar App.vue
 
 ### Ejemplo de uso
