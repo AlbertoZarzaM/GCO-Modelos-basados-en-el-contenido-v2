@@ -64,7 +64,11 @@ export const lematizar = (elementosLinea: string[]): string[] => {
 // * 5. Similaridad coseno entre cada par de documentos.
 
 
-// Recibimos un array de arrays, donde cada array coresponde a las palabras de un documento.
+/**
+ * Función encargada de gestionar todos los calculos y llamadas a funciones.
+ * @param palabras Todas las palabras de todos los documentos
+ * @returns array de tablas creadas.
+ */
 export const gestionCalculos = (palabras: string[][]): Tabla[] => {
   // Array de apariciones de cada término en todos los documentos.
   let arrayApariciones: apariciones[] = DF(palabras);
@@ -206,7 +210,6 @@ export const IDF = (corpus_total: number, tablas: Tabla[]): void => {
     }
   }
 }
-//! ¿Calculo longitud del vector?
 
 
 /**
