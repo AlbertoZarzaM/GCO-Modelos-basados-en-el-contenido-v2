@@ -29,10 +29,16 @@
     <div id="result"></div>
   </div>
 
-<div id="miDiv">
-  
-  
-</div>
+
+  <div class="container text-center" >
+    <br>
+    <br>
+    <br>
+    <em> El resultado es un fichero que se descarga automáticamente </em>
+    <br>
+    <br>
+    <em> Si los recursos son limitados pueden excederse</em>
+  </div>
 </template>
 
 <script setup lang="ts">

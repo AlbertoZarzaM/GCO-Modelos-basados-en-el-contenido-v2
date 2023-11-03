@@ -6,7 +6,6 @@ let fileContent1: string = "";
 let fileContent2: string = "";
 
 let documentFileName: string = "";
-
 let resultado: string = "";
 
 export let fileContentLematizacion: string = "";
@@ -44,7 +43,6 @@ export const procesar = (): void  => {
   let arrayFilas: string[] = fileContent1.split("\n");
 
   //Eliminar espacios, puntos, comas, palabras vacias, saltos de línea y separar en array cada linea
-
   let arrayPalabras: string[][] = [];
   console.log('Eliminando espacios, puntos, comas, palabras vacias, saltos de línea y separando en array cada linea...')
   for (let i = 0; i < arrayFilas.length; i++) {
@@ -55,7 +53,7 @@ export const procesar = (): void  => {
     arrayPalabras[i] = arrayFilas[i].split(" ");
   }
   
-   //lematizar cada file
+  //lematizar cada file
   console.log('Lematizando...');
   for(let i = 0; i < arrayPalabras.length; i++) {
     arrayPalabras[i] = lematizar(arrayPalabras[i]);
@@ -75,9 +73,7 @@ export const procesar = (): void  => {
   console.log(arrayPalabras);
   console.log("CALCULOS");  
 
-  
   let mi_tabla: Tabla[] = gestionCalculos(arrayPalabras);
-
 
   console.log('Creando documento...');
   escribirYDescargar(mi_tabla);
@@ -88,13 +84,8 @@ export const procesar = (): void  => {
 export const escribirYDescargar = (miTabla: Tabla[]) => {
   let contenido: string = '';
 
-  // bucle (recorrer tablas)
-  // Introducir cabecera de la tabla
-  // Introducir filas de la tabla
-  // Introducir similaridades de la tabla
   let cabeceraCompleta: string = matrizATabla([["Índice", " Palabra", "Nº Apariciones", "DF", "IDF", "         TF     ", "                  TF-IDF"]])
 
-  // Tu lógica para escribir de forma incremental
   for(let i = 0; i < miTabla.length; i++) {
     console.log("Escribiendo tabla del documento " + i.toString());
     let similaridadCoseno: string[] = [];
@@ -114,13 +105,9 @@ export const escribirYDescargar = (miTabla: Tabla[]) => {
   }
   
 
-  // Crear un Blob con el contenido
   const blob = new Blob([contenido], { type: 'text/plain' });
-
-  // Crear un objeto URL
   const url = window.URL.createObjectURL(blob);
 
-  // Crear un enlace y descargar el archivo
   const link = document.createElement('a');
   link.href = url;
   link.download = 'resultado_' + documentFileName; // Nombre del archivo

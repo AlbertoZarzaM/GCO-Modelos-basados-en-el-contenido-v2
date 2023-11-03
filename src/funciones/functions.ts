@@ -232,23 +232,22 @@ export const TFIDF = (tablas: Tabla[]): void => {
 export const similaridadCoseno = (tablas: Tabla[]): void => {
   for(let i = 0; i < tablas.length; ++i) {
     for(let j = i+1; j < tablas.length; ++j) {  // empezamos en i ya que actualizamos ambas tablas de una vez.
-      if(i !== j) {                           // Comparación de documentos distintos
-        let sumaSimilaridad: number = 0;
+      let sumaSimilaridad: number = 0;
 
-        // Recorremos ambos documentos y comparamos los términos que tengan en común.
-        // el orden de los términos no es el mismo en ambos documentos, por lo que no podemos compararlos directamente.
-        for(let k = 0; k < tablas[i].filas.length; ++k) {
-          for(let l = 0; l < tablas[j].filas.length; ++l) {
-            if(tablas[i].filas[k][1] === tablas[j].filas[l][1]) {
-              sumaSimilaridad += (tablas[i].filas[k][6] as number) * (tablas[j].filas[l][6] as number);
-            }
+      // Recorremos ambos documentos y comparamos los términos que tengan en común.
+      // el orden de los términos no es el mismo en ambos documentos, por lo que no podemos compararlos directamente.
+      for(let k = 0; k < tablas[i].filas.length; ++k) {
+        for(let l = 0; l < tablas[j].filas.length; ++l) {
+          if(tablas[i].filas[k][1] === tablas[j].filas[l][1]) {
+            sumaSimilaridad += (tablas[i].filas[k][6] as number) * (tablas[j].filas[l][6] as number);
           }
         }
-        tablas[i].similaridadCoseno?.push({similaridad: sumaSimilaridad, otroDocumento: j});
-        tablas[j].similaridadCoseno?.push({similaridad: sumaSimilaridad, otroDocumento: i});
       }
+      tablas[i].similaridadCoseno?.push({similaridad: sumaSimilaridad, otroDocumento: j});
+      tablas[j].similaridadCoseno?.push({similaridad: sumaSimilaridad, otroDocumento: i});
     }
   }
+  
 }
 
 
