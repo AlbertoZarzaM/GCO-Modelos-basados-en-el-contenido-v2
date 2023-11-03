@@ -108,3 +108,5 @@ En el fichero 'App.vue' encontramos 3 partes:
 3. *<style>*: En esta parte se encuentra el código CSS de la aplicación.
 
 ### Ejemplo de uso
+Para ver un resultado de ejemplo, entrar en la carpeta '/Resultados'.
+Por ejemplo: [Resultado1](./Resultados/resultado1.pdf)
