@@ -102,12 +102,9 @@ Esto nos abrirá una ventana en nuestro navegador por defecto con la aplicación
     ``` 
     Función que transforma una matriz en una tabla HTML.
 
-
-
-
-
-
-Explicar Main
-Explicar App.vue
+En el fichero 'App.vue' encontramos 3 partes:
+1. *<template>*: En esta parte se encuentra el código HTML de la aplicación.
+2. *<script>*: Aquí se realizan las importaciones de los componentes necesarios 
+3. *<style>*: En esta parte se encuentra el código CSS de la aplicación.
 
 ### Ejemplo de uso
