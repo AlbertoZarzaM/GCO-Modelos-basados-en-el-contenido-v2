@@ -4,19 +4,6 @@ import { fileContentLematizacion } from "./start"
 
 // Tipo de datos tabla
 export type Tabla = {
-  /*
-  cabecera contiene los elementos: 
-  [0] índice
-  [1] palabra
-  [2] nº apariciones en el documento
-  [3] DF
-  [4] IDF
-  [5] TF
-  [6] TF-IDF
-  [7] Similaridad Coseno
-  */ 
-  
-  cabecera: string[];
   filas: (string | number)[][];
   longitud_TF: number;
   similaridadCoseno: similaridadType [];
@@ -48,16 +35,6 @@ export const lematizar = (elementosLinea: string[]): string[] => {
   }
   return arrayLematizado;
 }
-
-
-
-
-// Una vez tenemos la tabla
-// * 1. Calculamos DF
-// * 2. Calculamos TF
-// * 3. Calculamos IDF
-// * 4. Calculamos TF-IDF (vectores normalizados)
-// * 5. Similaridad coseno entre cada par de documentos.
 
 
 /**
@@ -107,7 +84,6 @@ export const crearTablas = (palabras: string[][], arrayApariciones: apariciones[
 
   for(let i = 0; i < palabras.length; i++) {
     let tabla: Tabla = {
-      cabecera: ["Índice", "Palabra", "Nº Apariciones en el documento", "DF", "IDF", "TF", "TF-IDF"],
       filas: [],
       longitud_TF: 0,
       similaridadCoseno: []
@@ -255,7 +231,7 @@ export const TFIDF = (tablas: Tabla[]): void => {
  */
 export const similaridadCoseno = (tablas: Tabla[]): void => {
   for(let i = 0; i < tablas.length; ++i) {
-    for(let j = i; j < tablas.length; ++j) {  // empezamos en i ya que actualizamos ambas tablas de una vez.
+    for(let j = i+1; j < tablas.length; ++j) {  // empezamos en i ya que actualizamos ambas tablas de una vez.
       if(i !== j) {                           // Comparación de documentos distintos
         let sumaSimilaridad: number = 0;
 
@@ -268,9 +244,6 @@ export const similaridadCoseno = (tablas: Tabla[]): void => {
             }
           }
         }
-
-        // console.log("Suma similaridad entre doc ", i , " y doc ", j, ": ", sumaSimilaridad);
-
         tablas[i].similaridadCoseno?.push({similaridad: sumaSimilaridad, otroDocumento: j});
         tablas[j].similaridadCoseno?.push({similaridad: sumaSimilaridad, otroDocumento: i});
       }
@@ -279,19 +252,40 @@ export const similaridadCoseno = (tablas: Tabla[]): void => {
 }
 
 
+
 /**
  * Función que transforma una matriz en una tabla HTML.
  * @param matriz matriz de datos
  */
 export function matrizATabla(matriz: (string|number)[][]): string {
-  let tablaHTML = "<table class=\"custom-table\">";
+  const anchoColumnas = [6, 15, 20, 15, 8, 8, 8, 8, 8]; // Ajusta el ancho de cada columna según sea necesario
+  let tablaPlana = '';
+  let elementoGrandeColumna6 = false;
   for (let i = 0; i < matriz.length; i++) {
-    tablaHTML += "<tr>";
     for (let j = 0; j < matriz[i].length; j++) {
-      tablaHTML += "<td >" + matriz[i][j] + "</td>";
+      const elemento = String(matriz[i][j]);
+      if (j === 4 || j === 5) {
+        const espaciosAdicionales = anchoColumnas[j] - elemento.length;
+        tablaPlana += elemento;
+        for (let k = 0; k < espaciosAdicionales; k++) {
+          tablaPlana += " ";
+        }
+        if (elemento.length === 1) {
+          tablaPlana += "\t\t\t\t\t\t\t\t\t\t";
+        } else {
+          tablaPlana += "\t\t\t\t\t";
+        }
+
+      } 
+      else {
+        const espaciosAdicionales = anchoColumnas[j] - elemento.length;
+        tablaPlana += elemento;
+        for (let k = 0; k < espaciosAdicionales; k++) {
+          tablaPlana += " ";
+        }
+      }
     }
-    tablaHTML += "</tr>";
+    tablaPlana += "\n"; // Utilizar saltos de línea para delimitar las filas
   }
-  tablaHTML += "</table>";
-  return tablaHTML;
+  return tablaPlana;
 }

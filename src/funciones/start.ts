@@ -4,6 +4,11 @@ import {lematizar, DF, gestionCalculos, matrizATabla, type Tabla} from "./functi
 let numeroArchivo: number = 0;
 let fileContent1: string = "";
 let fileContent2: string = "";
+
+let documentFileName: string = "";
+
+let resultado: string = "";
+
 export let fileContentLematizacion: string = "";
 
 export const cargarArchivo = (numeroArchivo: number): void => {
@@ -19,6 +24,7 @@ export const cargarArchivo = (numeroArchivo: number): void => {
         // Guarda el contenido del archivo en una variable correspondiente
         if (numeroArchivo === 1) {
           fileContent1 = e.target?.result as string;
+          documentFileName = file.name; // Guardamos el nombre del archivo en una variable global para luego descagar un fichero con ese nombre
         } else if (numeroArchivo === 2) {
           fileContent2 = e.target?.result as string;
         } else if (numeroArchivo === 3) {
@@ -40,7 +46,7 @@ export const procesar = (): void  => {
   //Eliminar espacios, puntos, comas, palabras vacias, saltos de línea y separar en array cada linea
 
   let arrayPalabras: string[][] = [];
-
+  console.log('Eliminando espacios, puntos, comas, palabras vacias, saltos de línea y separando en array cada linea...')
   for (let i = 0; i < arrayFilas.length; i++) {
     arrayFilas[i] = arrayFilas[i].replace(/\s+/g, " ");
     arrayFilas[i] = arrayFilas[i].replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
@@ -50,11 +56,13 @@ export const procesar = (): void  => {
   }
   
    //lematizar cada file
+  console.log('Lematizando...');
   for(let i = 0; i < arrayPalabras.length; i++) {
     arrayPalabras[i] = lematizar(arrayPalabras[i]);
   }
 
   // eliminar stop words de cada linea
+  console.log('Eliminando stop words...');
   let stopWords: string[] = fileContent2.split("\r\n");
 
   arrayPalabras = arrayPalabras.map((linea) => {  
@@ -69,51 +77,59 @@ export const procesar = (): void  => {
 
   
   let mi_tabla: Tabla[] = gestionCalculos(arrayPalabras);
-  
-  let matrices: (string | number)[][][] = [];
 
-  for(let i = 0; i < mi_tabla.length; i++) {
-    matrices.push(mi_tabla[i].filas);
-  }
-  
-  let miCabecera: string[] = mi_tabla[0].cabecera;
 
-  
-  
-  // Obtén el elemento div en el que deseas mostrar la matriz
-  const divElement = document.getElementById("miDiv");
-  
-  if (divElement) {
-    // Convierte la matriz en una tabla HTML
-    
-    
-    const cabeceraHTML = matrizATabla([miCabecera]);
-    
-    for(let i = 0; i < matrices.length; i++) {
-      let similaridadCoseno: string[] = [];
-      divElement.innerHTML += "<p class=\"texto-custom\"> Tabla del documento " + i.toString() + "</p>";
-      divElement.innerHTML += cabeceraHTML;
-      const tablaHTML = matrizATabla(matrices[i]);
-      // Agrega la tabla HTML al contenido del div
-      divElement.innerHTML += tablaHTML;
-      divElement.innerHTML += "<br>";
-      if (mi_tabla[i].similaridadCoseno !== undefined) {
-        for(let k = 0; k < mi_tabla[i].similaridadCoseno.length; k++) {
-          let auxString: string = "<p class=\"texto-custom\"> Similaridad Coseno del documento " + i.toString() + " con el documento " + mi_tabla[i].similaridadCoseno[k].otroDocumento.toString() + ": " + mi_tabla[i].similaridadCoseno[k].similaridad.toString()+"</p>";
-          similaridadCoseno.push(auxString);
-        }
-        for (let j = 0; j < similaridadCoseno.length; j++) {
-          divElement.innerHTML += similaridadCoseno[j];
-          divElement.innerHTML += "<br>";
-        }
-      } else {
-        divElement.innerHTML += "<br>";
-      }
-
-    }
-  }
+  console.log('Creando documento...');
+  escribirYDescargar(mi_tabla);
 
 }
 
+
+export const escribirYDescargar = (miTabla: Tabla[]) => {
+  let contenido: string = '';
+
+  // bucle (recorrer tablas)
+  // Introducir cabecera de la tabla
+  // Introducir filas de la tabla
+  // Introducir similaridades de la tabla
+  let cabeceraCompleta: string = matrizATabla([["Índice", " Palabra", "Nº Apariciones", "DF", "IDF", "         TF     ", "                  TF-IDF"]])
+
+  // Tu lógica para escribir de forma incremental
+  for(let i = 0; i < miTabla.length; i++) {
+    console.log("Escribiendo tabla del documento " + i.toString());
+    let similaridadCoseno: string[] = [];
+    const tablaHTML = matrizATabla(miTabla[i].filas);
+    contenido += cabeceraCompleta;
+    contenido += matrizATabla(miTabla[i].filas);
+    if (miTabla[i].similaridadCoseno !== undefined) {
+      for(let k = 0; k < miTabla[i].similaridadCoseno.length; k++) {
+        let auxString: string = "Similaridad Coseno del documento " + i.toString() + " con el documento " + miTabla[i].similaridadCoseno[k].otroDocumento.toString() + ": " + miTabla[i].similaridadCoseno[k].similaridad.toString();
+        similaridadCoseno.push(auxString);
+      }
+      for (let j = 0; j < similaridadCoseno.length; j++) {
+        contenido += similaridadCoseno[j];
+        contenido += "\n";
+      }
+    } 
+  }
+  
+
+  // Crear un Blob con el contenido
+  const blob = new Blob([contenido], { type: 'text/plain' });
+
+  // Crear un objeto URL
+  const url = window.URL.createObjectURL(blob);
+
+  // Crear un enlace y descargar el archivo
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'resultado_' + documentFileName; // Nombre del archivo
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+
+  // Revocar el objeto URL
+  window.URL.revokeObjectURL(url);
+};
 
 
