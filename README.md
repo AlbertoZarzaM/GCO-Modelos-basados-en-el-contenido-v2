@@ -109,4 +109,4 @@ En el fichero 'App.vue' encontramos 3 partes:
 
 ### Ejemplo de uso
 Para ver un resultado de ejemplo, entrar en la carpeta '/Resultados'.
-Por ejemplo, para el [Resultado1](./Resultados/resultado1.txt) se ha utilizado el fichero [documents-01.txt](./ficheros-prueba/documents-01.txt), [stop-words-en.txt](./ficheros-prueba/stop-words-en.txt) y [corpus-en-txt](./ficheros-prueba/corpus-en.txt).
+Por ejemplo, para el [Resultado1](./Resultados/resultado_documents-01.txt) se ha utilizado el fichero [documents-01.txt](./ficheros-prueba/documents-01.txt), [stop-words-en.txt](./ficheros-prueba/stop-words-en.txt) y [corpus-en-txt](./ficheros-prueba/corpus-en.txt).
