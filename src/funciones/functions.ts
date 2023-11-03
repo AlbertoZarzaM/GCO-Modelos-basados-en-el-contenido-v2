@@ -68,22 +68,29 @@ export const lematizar = (elementosLinea: string[]): string[] => {
 export const gestionCalculos = (palabras: string[][]): Tabla[] => {
   // Array de apariciones de cada término en todos los documentos.
   let arrayApariciones: apariciones[] = DF(palabras);
+  console.log('DF calculados')
 
   // crear tabla a partir de la string, una tabla para cada documento.
   let tablas: Tabla[] = crearTablas(palabras, arrayApariciones);
+  console.log('Tablas creadas')
 
   // llamada a función TF
   TF(tablas);
+  console.log('TF calculados')
   longitudTF(tablas);
+  console.log('Longitud TF calculada')
 
   // llamada a función IDF
   IDF(palabras.length, tablas);
+  console.log('IDF calculados')
   
   // llamada a función TF-IDF (vectores normalizados)
   TFIDF(tablas);
+  console.log('TF-IDF calculados')
 
   // llamada a función Similaridad coseno entre cada par de documentos.
   similaridadCoseno(tablas);
+  console.log('Similaridad coseno calculada')
 
   return tablas;
 
@@ -262,7 +269,7 @@ export const similaridadCoseno = (tablas: Tabla[]): void => {
           }
         }
 
-        console.log("Suma similaridad entre doc ", i , " y doc ", j, ": ", sumaSimilaridad);
+        // console.log("Suma similaridad entre doc ", i , " y doc ", j, ": ", sumaSimilaridad);
 
         tablas[i].similaridadCoseno?.push({similaridad: sumaSimilaridad, otroDocumento: j});
         tablas[j].similaridadCoseno?.push({similaridad: sumaSimilaridad, otroDocumento: i});
