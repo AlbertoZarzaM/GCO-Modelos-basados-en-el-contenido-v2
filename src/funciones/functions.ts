@@ -121,7 +121,7 @@ export const calcularApariciones = (documento: string[], termino: string): numbe
  * Función que devuelve el DF de una palabra.
  * @param palabra palabra a buscar
  * @param arrayApariciones array con todos los términos y su número de apariciones
- * @returns número de apariciones de la palabra en todos los documentos
+ * @returns número de documentos en los que aparece el término
  */
 const obtenerDF = (palabra: string, arrayApariciones: apariciones[]): number => {
   let df: number = 0;
@@ -139,19 +139,28 @@ const obtenerDF = (palabra: string, arrayApariciones: apariciones[]): number => 
  * @returns array con todos los términos y su número de apariciones
  */
 export const DF = (palabras: string[][]): apariciones[] => {
+  // número de documentos en los que aparece un término, sólo se contabiliza una vez por documento 
+  // aunque el término aparezca varias veces en el mismo documento.
 
   // array de apariciones
   let arrayApariciones: apariciones[] = [];
 
-  for (let i = 0; i < palabras.length; i++) {
-    for (let j = 0; j < palabras[i].length; j++) {
-      if (arrayApariciones.find(elemento => elemento.termino === palabras[i][j])) {
-        // si existe, sumamos 1 a apariciones
-        arrayApariciones.find(elemento => elemento.termino === palabras[i][j])!.numeroApariciones++;
-
-      } else {
+  for (let i = 0; i < palabras.length; i++) { // Recorremos cada documento
+    let documento_actual: string[] = palabras[i];
+    // transformamos el array de palabras en un array de palabras únicas, sin repetir.
+    documento_actual = documento_actual.filter((item, index) => {
+      return documento_actual.indexOf(item) === index;
+    });
+    
+    for (let j = 0; j < documento_actual.length; j++) {  // Recorremos cada palabra del documento
+      // Ahora las palabras són únicas en cada documento, sólo se contabiliza un término por documento.
+      // si existe, sumamos 1 a apariciones
+      if (arrayApariciones.find(elemento => elemento.termino === documento_actual[j])) {
+        arrayApariciones.find(elemento => elemento.termino === documento_actual[j])!.numeroApariciones++;
+      } 
+      else {
         // si no existe, lo añadimos
-        arrayApariciones.push({termino: palabras[i][j], numeroApariciones: 1});
+        arrayApariciones.push({termino: documento_actual[j], numeroApariciones: 1});
       }
     }
   }
